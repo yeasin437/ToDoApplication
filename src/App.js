@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/tasks"; // Backend URL
+// Backend URL
+const API_URL = "https://todoapplication-backend-iz5j.onrender.com/api/tasks";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -60,7 +61,7 @@ function App() {
   return (
     <div className="App">
       <h1>To-Do List</h1>
-      <div>
+      <div className="input-container">
         <input
           type="text"
           value={newTask}
@@ -69,13 +70,10 @@ function App() {
         />
         <button onClick={addTask}>Add Task</button>
       </div>
-      <ul>
+      <ul className="task-list">
         {tasks.map((task) => (
-          <li key={task._id}>
-            <span
-              style={{ textDecoration: task.completed ? "line-through" : "" }}
-              onClick={() => toggleTask(task._id, task.completed)}
-            >
+          <li key={task._id} className={task.completed ? "completed" : ""}>
+            <span onClick={() => toggleTask(task._id, task.completed)}>
               {task.title}
             </span>
             <button onClick={() => deleteTask(task._id)}>Delete</button>
