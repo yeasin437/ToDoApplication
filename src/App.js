@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Backend URL
+// Backend API URL
 const API_URL = "https://todoapplication-backend-iz5j.onrender.com/api/tasks";
 
 function App() {
@@ -72,11 +72,24 @@ function App() {
       </div>
       <ul className="task-list">
         {tasks.map((task) => (
-          <li key={task._id} className={task.completed ? "completed" : ""}>
+          <li
+            key={task._id}
+            className={`task-item ${task.completed ? "completed" : ""}`}
+          >
             <span onClick={() => toggleTask(task._id, task.completed)}>
               {task.title}
             </span>
-            <button onClick={() => deleteTask(task._id)}>Delete</button>
+            <div className="task-actions">
+              <button
+                className="complete"
+                onClick={() => toggleTask(task._id, task.completed)}
+              >
+                {task.completed ? "Undo" : "Complete"}
+              </button>
+              <button className="delete" onClick={() => deleteTask(task._id)}>
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
