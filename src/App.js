@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Backend API URL
-const API_URL = "https://todoapplication-backend-iz5j.onrender.com/api/tasks";
+const API_URL = "https://todoapplication-backend-iz5j.onrender.com/api/tasks"; // Backend URL
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -43,6 +42,18 @@ function App() {
     }
   };
 
+  // Edit task title
+  const editTask = async (id, newTitle) => {
+    try {
+      const response = await axios.put(`${API_URL}/${id}`, {
+        title: newTitle,
+      });
+      setTasks(tasks.map((task) => (task._id === id ? response.data : task)));
+    } catch (error) {
+      console.error("Error editing task:", error);
+    }
+  };
+
   // Delete a task
   const deleteTask = async (id) => {
     try {
@@ -72,23 +83,23 @@ function App() {
       </div>
       <ul className="task-list">
         {tasks.map((task) => (
-          <li
-            key={task._id}
-            className={`task-item ${task.completed ? "completed" : ""}`}
-          >
-            <span onClick={() => toggleTask(task._id, task.completed)}>
-              {task.title}
-            </span>
-            <div className="task-actions">
+          <li key={task._id} className={task.completed ? "completed" : ""}>
+            <span>{task.title}</span>
+            <div>
               <button
-                className="complete"
+                className="complete-btn"
                 onClick={() => toggleTask(task._id, task.completed)}
               >
-                {task.completed ? "Undo" : "Complete"}
+                {task.completed ? "Incomplete" : "Complete"}
               </button>
-              <button className="delete" onClick={() => deleteTask(task._id)}>
-                Delete
+              <button
+                onClick={() =>
+                  editTask(task._id, prompt("Edit Task:", task.title))
+                }
+              >
+                Edit
               </button>
+              <button onClick={() => deleteTask(task._id)}>Delete</button>
             </div>
           </li>
         ))}

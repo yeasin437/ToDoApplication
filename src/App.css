@@ -5,32 +5,54 @@
 }
 
 .input-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .input-container input {
   padding: 10px;
-  width: 200px;
-  margin-right: 10px;
+  width: 100%;
+  max-width: 300px;
+  flex: 1;
 }
 
 .input-container button {
   padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.input-container button:hover {
+  background-color: #0056b3;
 }
 
 .task-list {
   list-style-type: none;
   padding: 0;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .task-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
   margin: 5px 0;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.task-list li span {
+  cursor: pointer;
 }
 
 .task-list li.completed span {
@@ -44,8 +66,39 @@
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  border-radius: 5px;
+}
+
+.task-list li button.complete-btn {
+  background-color: green;
+  margin-right: 5px;
+}
+
+.task-list li button.complete-btn:hover {
+  background-color: darkgreen;
 }
 
 .task-list li button:hover {
   background-color: darkred;
+}
+
+@media (max-width: 600px) {
+  .input-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-container input,
+  .input-container button {
+    width: 100%;
+  }
+
+  .task-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-list li button {
+    margin-top: 5px;
+  }
 }
