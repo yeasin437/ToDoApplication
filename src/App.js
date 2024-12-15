@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./App.css";
 
-const API_URL = "https://todoapplication-backend-iz5j.onrender.com/api/tasks"; // Backend URL
+//  backend URL
+const API_URL = "https://todoapplication-backend-iz5j.onrender.com/api/tasks";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
-  // Fetch all tasks from the backend
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
   const fetchTasks = async () => {
     try {
       const response = await axios.get(API_URL);
@@ -17,7 +22,6 @@ function App() {
     }
   };
 
-  // Add a new task
   const addTask = async () => {
     if (newTask.trim()) {
       try {
@@ -30,7 +34,6 @@ function App() {
     }
   };
 
-  // Toggle task completion
   const toggleTask = async (id, completed) => {
     try {
       const response = await axios.put(`${API_URL}/${id}`, {
@@ -42,19 +45,6 @@ function App() {
     }
   };
 
-  // Edit task title
-  const editTask = async (id, newTitle) => {
-    try {
-      const response = await axios.put(`${API_URL}/${id}`, {
-        title: newTitle,
-      });
-      setTasks(tasks.map((task) => (task._id === id ? response.data : task)));
-    } catch (error) {
-      console.error("Error editing task:", error);
-    }
-  };
-
-  // Delete a task
   const deleteTask = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
@@ -63,11 +53,6 @@ function App() {
       console.error("Error deleting task:", error);
     }
   };
-
-  // Load tasks on component mount
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   return (
     <div className="App">
@@ -81,29 +66,31 @@ function App() {
         />
         <button onClick={addTask}>Add Task</button>
       </div>
-      <ul className="task-list">
+      <div>
         {tasks.map((task) => (
-          <li key={task._id} className={task.completed ? "completed" : ""}>
+          <div
+            key={task._id}
+            className={`task-item ${task.completed ? "completed" : ""}`}
+          >
+            <div
+              className={`circle ${task.completed ? "completed" : ""}`}
+              onClick={() => toggleTask(task._id, task.completed)}
+            ></div>
             <span>{task.title}</span>
-            <div>
-              <button
-                className="complete-btn"
-                onClick={() => toggleTask(task._id, task.completed)}
-              >
-                {task.completed ? "Incomplete" : "Complete"}
-              </button>
-              <button
-                onClick={() =>
-                  editTask(task._id, prompt("Edit Task:", task.title))
-                }
-              >
-                Edit
-              </button>
-              <button onClick={() => deleteTask(task._id)}>Delete</button>
-            </div>
-          </li>
+            <button
+              className={`status-btn ${
+                task.completed ? "completed" : "incomplete"
+              }`}
+              onClick={() => toggleTask(task._id, task.completed)}
+            >
+              {task.completed ? "Completed" : "Incomplete"}
+            </button>
+            <button className="delete-btn" onClick={() => deleteTask(task._id)}>
+              Delete
+            </button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
