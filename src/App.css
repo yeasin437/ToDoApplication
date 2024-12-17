@@ -100,6 +100,20 @@ button:hover {
   color: white;
   white-space: nowrap;
 }
+.rest-api-btn {
+  background-color: #17a2b8; 
+  color: white;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rest-api-btn:hover {
+  background-color: #138496; 
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
