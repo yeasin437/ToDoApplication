@@ -65,6 +65,17 @@ function App() {
           placeholder="Add a new task..."
         />
         <button onClick={addTask}>Add Task</button>
+             <button
+          className="rest-api-btn"
+          onClick={() =>
+            window.open(
+              "https://todoapplication-backend-iz5j.onrender.com/api/tasks",
+              "_blank"
+            )
+          }
+        >
+          Open API
+        </button>
       </div>
       <div>
         {tasks.map((task) => (
